@@ -70,32 +70,45 @@ impl Storeable for String {
 impl Loadable for String {
     fn load(id: String) -> Result<Option<Self>, LoadErr> {
         let data = match std::fs::read_to_string("database") {
-            Err(e) => {
+            Err(_) => {
                 println!("Error occurred loading the string with id {id}");
                 return Err(LoadErr::UnknownError);
             },
             Ok(data) => data
         }; 
 
-        data.split("\n").find(|row| {
-            id == row.split("%%%").nth(0).unwrap()
+        let data = data.lines().find_map(|row| {
+            if id == row.split("%%%").nth(0).unwrap() {
+                return Some(row.split("%%%").nth(1).unwrap().to_string());
+            }
+            None
         });
+
+        Ok(data)
     }
 }
 
 fn main() {
-    let nome_legal = "Baltazar".to_string();
+    // let nome_legal = "Baltazar".to_string();
 
-    String::load("j02Knb5".to_string());
+    let registro = String::load("j02Knb5".to_string());
 
-    let registro = match nome_legal.store() {
-        Ok(data) => data,
-        Err(err) => {
-            println!("ACONTECEU UM ERRO:");
-            dbg!(err);
-            std::process::abort();
-        },
-    };
+    if let Ok(registro) = registro {
+        if let Some(string) = registro {
+            println!("Achei a string: {}", string);
+        } else {
+            println!("Não achei este registro!");
+        }
+    }
 
-    println!("Armazenei a string! o id é {}", registro.id);
+    // let registro = match nome_legal.store() {
+    //     Ok(data) => data,
+    //     Err(err) => {
+    //         println!("ACONTECEU UM ERRO:");
+    //         dbg!(err);
+    //         std::process::abort();
+    //     },
+    // };
+
+    // println!("Armazenei a string! o id é {}", registro.id);
 }
