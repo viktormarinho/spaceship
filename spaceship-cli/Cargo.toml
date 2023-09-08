@@ -1,0 +1,16 @@
+[package]
+name = "spaceship-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Cli utility tool of the spaceship project"
+authors = ["viktormarinho"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.72"
+clap = "4.3.21"
+
+[[bin]]
+name = "ssp"
+path = "src/bin/ssp.rs"

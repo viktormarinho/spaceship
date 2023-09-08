@@ -8,3 +8,8 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = "1.0.74"
+axum = { version = "0.6.20", features = ["macros"] }
+serde = { version = "1.0.188", features = ["derive"] }
+tokio = { version = "1.31.0", features = ["full"] }
+spaceship-derive = { path = "../spaceship-derive", version = "0.1.0" }
